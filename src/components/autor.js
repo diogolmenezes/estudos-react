@@ -42,7 +42,7 @@ class FormularioDeAutor extends Component {
 
         axios.post('http://cdc-react.herokuapp.com/api/autores', JSON.stringify(dados), { headers: { 'Content-Type': 'application/json' } })
             .then(function (result) {
-                
+
                 PubSub.publish('nova-lista-autores', result.data);
 
                 // limpando os campos
@@ -54,9 +54,9 @@ class FormularioDeAutor extends Component {
 
             }.bind(this))
             .catch(function (error) {
-                if(error.response.status === 400)
+                if (error.response.status === 400)
                     PubSub.publish('cadastro-autor-error', error.response.data.errors)
-                else 
+                else
                     console.log(error);
             });
     }
@@ -119,7 +119,7 @@ export default class AutorBox extends Component {
         axios.get('http://cdc-react.herokuapp.com/api/autores')
             .then(function (result) {
                 this.setState({
-                    autores: result.data.sort((a, b) => {                        
+                    autores: result.data.sort((a, b) => {
                         if (a.id > b.id) {
                             return -1;
                         }
@@ -139,8 +139,13 @@ export default class AutorBox extends Component {
     render() {
         return (
             <div>
-                <FormularioDeAutor />
-                <TabelaDeAutores autores={this.state.autores} />
+                <div className="header">
+                    <h1>Cadastro de Autores</h1>
+                </div>
+                <div className="content" id="content">
+                    <FormularioDeAutor />
+                    <TabelaDeAutores autores={this.state.autores} />
+                </div>
             </div>
         )
     }
